@@ -5,6 +5,7 @@ This repository contains an implementation of a simple Multi-Layer Perceptron (M
 ## Project Structure
 
 - `simple_mlp.m`: The main MATLAB script that implements the MLP, including the training and evaluation of the network.
+- 
 
 ## Features
 
