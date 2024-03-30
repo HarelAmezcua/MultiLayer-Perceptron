@@ -22,10 +22,14 @@ function [pc1, pc2] = simple_mlp()
 
     % Parámetros de entrenamiento
     learning_rate = 0.1;
-    epochs = 10000;
+    epochs = 1000000;
+
+   % Initialize MSE history
+    mse_history = zeros(epochs, 1);
 
     % Entrenamiento
     for epoch = 1:epochs
+        squaredErrors = zeros(size(originalInputs, 1), 1); % Store squared errors for each example
         % Bucle sobre todos los ejemplos
         for i = 1:size(originalInputs, 1)
             % Propagación hacia adelante
@@ -43,11 +47,20 @@ function [pc1, pc2] = simple_mlp()
 
             dW1 = (error .* sigmoid_derivative(output)) * weights2(1:end-1)' .* sigmoid_derivative(hidden(1:end-1)) .* input';
             weights1 = weights1 + learning_rate * dW1;
+
+            % Store squared error for this example
+            squaredErrors(i) = error^2;           
         end
+        % Compute MSE for this epoch and store it
+        mse_history(epoch) = mean(squaredErrors);
     end  
     pc1 = weights1;
     pc2 = weights2;
+
+    plot(mse_history)
 end
+
+
 
 % Función de activación sigmoide
 function y = sigmoid(x)
